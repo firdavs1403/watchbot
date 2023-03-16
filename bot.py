@@ -1,4 +1,6 @@
 import asyncio
+import os
+
 from aiogram.fsm.storage.memory import MemoryStorage
 from config import config
 import logging
@@ -18,7 +20,7 @@ async def main():
 
     dp.include_router(handlers.router)
 
-    engine = create_async_engine("postgresql+asyncpg://firdavs:test1234@localhost:8080/firdavs")
+    engine = create_async_engine(f"postgresql+asyncpg://{os.getenv('name')}:{os.getenv('password')}@localhost:8080/{os.getenv('db_name')}")
     session_maker = get_session_maker(engine)
     await proceed_schemas(engine, Base.metadata)
 
